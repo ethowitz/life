@@ -17,12 +17,12 @@ fn main() {
     }
 }
 
-// TODO: replace with map
 fn get_live_neighbors(board: &Vec<Vec<char>>, row: usize, col: usize) -> u8 {
     let mut count: u8 = 0;
     for i in 0..2 {
         for j in 0..2 {
-            if (i != 0 || j != 0) && row + i < board.len() && col + j < board[0].len() && board[row + i][col + j] == 'X' {
+            if (i != 0 || j != 0) && row + i < board.len() && col + j < board[0].len() &&
+               board[row + i][col + j] == 'X' {
                 count += 1;
             }
         }
@@ -30,7 +30,8 @@ fn get_live_neighbors(board: &Vec<Vec<char>>, row: usize, col: usize) -> u8 {
 
     if row > 0 {
         for j in 0..2 {
-            if row - 1 < board.len() && col + j < board[0].len() && board[row - 1][col + j] == 'X' {
+            if row - 1 < board.len() && col + j < board[0].len() &&
+               board[row - 1][col + j] == 'X' {
                 count += 1;
             }
         }
@@ -68,19 +69,13 @@ fn apply_rules(board: &Vec<Vec<char>>, rows: usize, cols: usize) -> Vec<Vec<char
     new_board
 }
 
-// TODO: replace with map
 fn generate_seed(board: &mut Vec<Vec<char>>) {
+    let gen_char = |x| if rand::random::<i64>() % 4 == 1 {'X'} else {' '};
     for row in board {
-        for square in row {
-            // change this to function of board size
-            if rand::random::<i64>() % 4 == 1 {
-                *square = 'X';
-            }
-        }
+        *row = row.into_iter().map(&gen_char).collect();
     }
 }
 
-// TODO: replace with map
 fn print_board(board: &Vec<Vec<char>>) {
     print!("\u{001b}c");
     for row in board {
